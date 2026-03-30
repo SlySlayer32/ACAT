@@ -1,61 +1,43 @@
-# ACAT Case Submission Repository
+# ACAT Submission Bundle
 
-## 1. Purpose
+This repository is structured as an ACAT-ready submission bundle for an application to vary the termination date to 28 April 2026.
 
-This repository contains supporting documents for an ACAT (Appeal/Case Assistance/Tenancy) claim, organized to tell a clear chronological story:
+## Final bundle
 
-- Who is applying and why
-- Original rental/lease request
-- Financial capability and payments
-- Supporting proof of income, contract, and ledger history
-- Formal requests for extension, aid access, and appeals
+The top level of this repository is reserved for the filing set:
 
-> Note: a spoken statement (audio recorded statement) is expected to accompany this documentary evidence. Add an audio transcript file as a top-level artifact (e.g., `Statement_Audio_Transcript.txt`) and reference it in the timeline.
+- `00 – Statement – Application to Vary Termination Date.pdf`
+- `01 – Index of Evidence (READ THIS FIRST).pdf`
+- `Exhibit A – Rental Applications.pdf`
+- `Exhibit B – Payment History & ACAT Compliance.pdf`
+- `Exhibit C – Income & Financial Capacity.pdf`
+- `Exhibit D – Autism Assessment Appointment.pdf`
+- `Exhibit E – Medical Wait Times Evidence.pdf`
+- `Exhibit F – Rental Ledger & Lease Documents.pdf`
+- `Exhibit G – Supporting Communication.pdf`
+- `Exhibit H – Exit Preparation Evidence.pdf`
 
-## 2. Quick index (storyline)
+## Source materials
 
-1. **Rental application intent / contact records**
-   - `Exhibit A - Rental Applications.png`
-   - `Unsuccesful_property_emails.pdf`
+Original evidence files are stored in:
 
-2. **Payment history and proof of financial reliability**
-   - `Exhibit B - Payment History.jpg`
-   - `Exhibit C1 - Income Statement (13 March).pdf`
-   - `Exhibit C2 - Income Statement (27 March).pdf`
-   - `Exhibit C3 - Contract Pay Offering.pdf`
+- `source/original-evidence/`
 
-3. **Household budget & ledger tracking**
-   - `Exhibit C4 - Family Budget.png`
-   - `Exhibit C5 - Ledger (15 Dec 2023 to 6 Mar 2026).pdf`
-   - `Exhibit C6 - Proof of Ledger Backpay.pdf`
+The bundle generator script and editable text sources are stored in:
 
-4. **Agreements and leases tied to accommodation claim**
-   - `Exhibit C7 - Contract Agreement (24 March).pdf`
-   - `Exhibit C8 - Contract Agreement (30 March).pdf`
-   - `Exhibit C9 - Lease Agreement (31 March).pdf`
+- `scripts/generate_acat_bundle.py`
+- `bundle-src/statement.txt`
+- `bundle-src/index.txt`
 
-5. **Formal requests and support letters**
-   - `Jenna fruend extension request- 44 Bainbridge Close.pdf`
-   - `Jenna last minute request desperate.pdf`
-   - `legal aid Housing assistance.pdf`
+## Notes
 
-6. **Contextual evidence of decision process**
-   - `Exhibit A` through `Exhibit C` serve as the primary evidentiary story
-   - `Unsuccesful_property_emails.pdf` shows denied or delayed responses
+- Exhibits `D`, `E`, and `H` are generated as placeholders if source evidence has not yet been provided.
+- Replace those placeholders with actual documents before filing if you have the medical appointment confirmation, wait-time evidence, or exit-preparation records.
 
-## 3. Suggested repo organization (optional)
+## Regenerate
 
-For clarity, consider moving exhibits into structured folders, e.g.: 
+Run:
 
-- `./exhibits/applications/`
-- `./exhibits/finance/`
-- `./exhibits/contracts/`
-- `./exhibits/requests/`
-
-This helps panelists quickly follow the narrative thread.
-
-## 4. Next steps / critical clarity check
-
-- Add an audio transcript artifact and point to the exact timestamped statements.
-- Provide a brief `Case_Summary.md` (1 page) that reads aloud as a story with anchor references to exhibit filenames.
-- Verify each document has a date/author label and a short “why this matters” note in a companion index file.
+```powershell
+python scripts/generate_acat_bundle.py
+```
