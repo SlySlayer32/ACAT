@@ -17,6 +17,16 @@ The top level of this repository is reserved for the filing set:
 - `Exhibit G – Supporting Communication.pdf`
 - `Exhibit H – Exit Preparation Evidence.pdf`
 
+## ACAT online filing set
+
+Because the ACAT online form limits uploads to three files and 40 total pages, this repository also generates a compact filing pack:
+
+- `ACAT Filing Pack 1 – Statement, Index and Form Answers.pdf`
+- `ACAT Filing Pack 2 – Medical Hardship Evidence.pdf`
+- `ACAT Filing Pack 3 – Financial Capacity, Housing Search and Compliance.pdf`
+
+These three files are intended to be the strongest upload set for the online form.
+
 ## Source materials
 
 Original evidence files are stored in:
@@ -28,11 +38,13 @@ The bundle generator script and editable text sources are stored in:
 - `scripts/generate_acat_bundle.py`
 - `bundle-src/statement.txt`
 - `bundle-src/index.txt`
+- `bundle-src/online_form_answers.txt`
 
 ## Notes
 
-- Exhibits `D`, `E`, and `H` are generated as placeholders if source evidence has not yet been provided.
-- Replace those placeholders with actual documents before filing if you have the medical appointment confirmation, wait-time evidence, or exit-preparation records.
+- Exhibits `D`, `E`, and `H` are generated as structured placeholders if source evidence has not yet been provided.
+- The filing pack uses those placeholders when no stronger source document is available.
+- Replace the placeholders with actual documents before filing if you have the medical appointment confirmation, wait-time evidence, or exit-preparation records.
 
 ## Regenerate
 

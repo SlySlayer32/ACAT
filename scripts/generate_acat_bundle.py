@@ -22,6 +22,9 @@ TEXT_DIR = ROOT / "bundle-src"
 FINAL_FILES = [
     "00 – Statement – Application to Vary Termination Date.pdf",
     "01 – Index of Evidence (READ THIS FIRST).pdf",
+    "ACAT Filing Pack 1 – Statement, Index and Form Answers.pdf",
+    "ACAT Filing Pack 2 – Medical Hardship Evidence.pdf",
+    "ACAT Filing Pack 3 – Financial Capacity, Housing Search and Compliance.pdf",
     "Exhibit A – Rental Applications.pdf",
     "Exhibit B – Payment History & ACAT Compliance.pdf",
     "Exhibit C – Income & Financial Capacity.pdf",
@@ -181,17 +184,29 @@ def append_pdf(writer: PdfWriter, pdf_path: Path) -> None:
         writer.add_page(page)
 
 
-def build_exhibit(spec: ExhibitSpec) -> None:
-    temp_cover = BUILD_DIR / f"{spec.title}.cover.pdf"
-    notes = list(spec.notes or [])
-    if spec.sources:
-        notes.extend([f"Source file: {name}" for name in spec.sources])
-    build_cover_page(temp_cover, spec.title, spec.summary, notes)
-
+def combine_pdfs(output_path: Path, inputs: list[Path]) -> None:
     writer = PdfWriter()
-    append_pdf(writer, temp_cover)
+    for pdf_path in inputs:
+        append_pdf(writer, pdf_path)
+    with output_path.open("wb") as f:
+        writer.write(f)
 
+
+def create_placeholder_exhibit(output_path: Path, title: str, summary: str, prompts: list[str]) -> None:
+    build_cover_page(output_path, title, summary, prompts)
+
+
+def build_exhibit(spec: ExhibitSpec) -> None:
     if not spec.placeholder:
+        temp_cover = BUILD_DIR / f"{spec.title}.cover.pdf"
+        notes = list(spec.notes or [])
+        if spec.sources:
+            notes.extend([f"Source file: {name}" for name in spec.sources])
+        build_cover_page(temp_cover, spec.title, spec.summary, notes)
+
+        writer = PdfWriter()
+        append_pdf(writer, temp_cover)
+
         for name in spec.sources:
             src = SOURCE_DIR / name
             if src.suffix.lower() in {".png", ".jpg", ".jpeg"}:
@@ -201,9 +216,17 @@ def build_exhibit(spec: ExhibitSpec) -> None:
             elif src.suffix.lower() == ".pdf":
                 append_pdf(writer, src)
 
-    output_path = ROOT / spec.filename
-    with output_path.open("wb") as f:
-        writer.write(f)
+        output_path = ROOT / spec.filename
+        with output_path.open("wb") as f:
+            writer.write(f)
+        return
+
+    create_placeholder_exhibit(
+        ROOT / spec.filename,
+        spec.title,
+        spec.summary,
+        list(spec.notes or []),
+    )
 
 
 def main() -> None:
@@ -212,6 +235,7 @@ def main() -> None:
 
     write_text_pdf(TEXT_DIR / "statement.txt", ROOT / "00 – Statement – Application to Vary Termination Date.pdf")
     write_text_pdf(TEXT_DIR / "index.txt", ROOT / "01 – Index of Evidence (READ THIS FIRST).pdf")
+    write_text_pdf(TEXT_DIR / "online_form_answers.txt", BUILD_DIR / "online_form_answers.pdf")
 
     exhibits = [
         ExhibitSpec(
@@ -250,23 +274,36 @@ def main() -> None:
         ExhibitSpec(
             filename="Exhibit D – Autism Assessment Appointment.pdf",
             title="Exhibit D – Autism Assessment Appointment",
-            summary="Placeholder exhibit for the appointment confirmation for the autism assessment scheduled on 31 March 2026.",
+            summary="Structured placeholder for the appointment confirmation for the autism assessment scheduled on 31 March 2026.",
             sources=[],
             placeholder=True,
             notes=[
-                "This placeholder should be replaced with the appointment confirmation notice or booking email for the 31 March 2026 assessment.",
-                "Include the child name, appointment date, provider details, and any booking reference if available.",
+                "Applicant note if original booking confirmation is not yet available.",
+                "Child name or initials: [insert]",
+                "Provider or clinic: [insert]",
+                "Appointment date and time: 31 March 2026 [confirm exact time]",
+                "How the booking was confirmed to you: [phone, email, letter, portal, other]",
+                "Booking or reference number if known: [insert]",
+                "Reason the original booking notice is not attached: [insert]",
+                "Replace this page with the actual booking confirmation if it becomes available before filing or hearing.",
+                "Only keep statements on this page that are true and can be honestly affirmed by the applicant.",
             ],
         ),
         ExhibitSpec(
             filename="Exhibit E – Medical Wait Times Evidence.pdf",
             title="Exhibit E – Medical Wait Times Evidence",
-            summary="Placeholder exhibit for material showing the long wait time for autism assessment appointments.",
+            summary="Structured placeholder for material showing the long wait time for autism assessment appointments.",
             sources=[],
             placeholder=True,
             notes=[
-                "This placeholder should be replaced with provider correspondence, referral wait-list material, or other evidence showing the likely delay if the appointment is missed.",
-                "A short provider email, appointment letter, or referral note is sufficient if it confirms the delay.",
+                "Applicant note if formal wait-time material is not yet available.",
+                "Who told you about the likely delay: [provider, clinic, specialist, receptionist, other]",
+                "When you were told: [insert date or approximate date]",
+                "What you were told about the likely wait if the appointment is missed: [insert exact words as closely as possible]",
+                "Whether the advice was given by phone, email, letter, or in person: [insert]",
+                "Reason the original written material is not attached: [insert]",
+                "Replace this page with provider correspondence, referral wait-list material, or another stronger document if it becomes available before filing or hearing.",
+                "Only keep statements on this page that are true and can be honestly affirmed by the applicant.",
             ],
         ),
         ExhibitSpec(
@@ -292,18 +329,48 @@ def main() -> None:
         ExhibitSpec(
             filename="Exhibit H – Exit Preparation Evidence.pdf",
             title="Exhibit H – Exit Preparation Evidence",
-            summary="Placeholder exhibit for cleaning, moving, storage, or other exit-preparation material.",
+            summary="Structured placeholder for cleaning, moving, storage, or other exit-preparation material.",
             sources=[],
             placeholder=True,
             notes=[
-                "This placeholder should be replaced with removalist bookings, cleaning quotes, storage arrangements, packing confirmations, or similar documents.",
-                "If no external document exists, a dated moving plan or cleaning quote can be inserted here.",
+                "Applicant note if external moving or cleaning documents are not yet available.",
+                "Removalist enquiries or bookings made: [insert]",
+                "Cleaning enquiries or quotes obtained: [insert]",
+                "Storage enquiries or arrangements made: [insert]",
+                "Current stage of packing and what remains to be done: [insert]",
+                "Reason supporting external documents are not attached: [insert]",
+                "Replace this page with removalist bookings, cleaning quotes, storage arrangements, packing confirmations, or similar documents if they become available before filing or hearing.",
+                "Only keep statements on this page that are true and can be honestly affirmed by the applicant.",
             ],
         ),
     ]
 
     for exhibit in exhibits:
         build_exhibit(exhibit)
+
+    combine_pdfs(
+        ROOT / "ACAT Filing Pack 1 – Statement, Index and Form Answers.pdf",
+        [
+            BUILD_DIR / "online_form_answers.pdf",
+            ROOT / "00 – Statement – Application to Vary Termination Date.pdf",
+            ROOT / "01 – Index of Evidence (READ THIS FIRST).pdf",
+        ],
+    )
+    combine_pdfs(
+        ROOT / "ACAT Filing Pack 2 – Medical Hardship Evidence.pdf",
+        [
+            ROOT / "Exhibit D – Autism Assessment Appointment.pdf",
+            ROOT / "Exhibit E – Medical Wait Times Evidence.pdf",
+        ],
+    )
+    combine_pdfs(
+        ROOT / "ACAT Filing Pack 3 – Financial Capacity, Housing Search and Compliance.pdf",
+        [
+            ROOT / "Exhibit A – Rental Applications.pdf",
+            ROOT / "Exhibit B – Payment History & ACAT Compliance.pdf",
+            ROOT / "Exhibit C – Income & Financial Capacity.pdf",
+        ],
+    )
 
     for file in BUILD_DIR.iterdir():
         if file.is_file():
