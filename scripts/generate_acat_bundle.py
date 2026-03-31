@@ -25,6 +25,7 @@ FINAL_FILES = [
     "ACAT Filing Pack 1 – Statement, Index and Form Answers.pdf",
     "ACAT Filing Pack 2 – Medical Hardship Evidence.pdf",
     "ACAT Filing Pack 3 – Financial Capacity, Housing Search and Compliance.pdf",
+    "ACAT Required Evidence – Receipt, Medical and Income.pdf",
     "Exhibit A – Rental Applications.pdf",
     "Exhibit B – Payment History & ACAT Compliance.pdf",
     "Exhibit C – Income & Financial Capacity.pdf",
@@ -369,6 +370,56 @@ def main() -> None:
             ROOT / "Exhibit A – Rental Applications.pdf",
             ROOT / "Exhibit B – Payment History & ACAT Compliance.pdf",
             ROOT / "Exhibit C – Income & Financial Capacity.pdf",
+        ],
+    )
+
+    build_cover_page(
+        BUILD_DIR / "required_evidence_cover.pdf",
+        "ACAT Required Evidence – Receipt, Medical and Income",
+        "Focused support pack containing the three items identified as most important for the ACAT application.",
+        [
+            "Item 1: Receipt or ledger material showing the applicants are ahead in rent.",
+            "Item 2: Medical proof of the child's autism assessment appointment.",
+            "Item 3: Income proof showing the Centrelink grant or payment start date.",
+        ],
+    )
+    build_cover_page(
+        BUILD_DIR / "required_evidence_section_1.pdf",
+        "Item 1 – Receipt and Ledger Material",
+        "Source material selected to show the backpay or receipt position and the Belle Property ledger position.",
+        [
+            "Included source: Exhibit C6 - Proof of Ledger Backpay.pdf",
+            "Included source: Exhibit C5 - Ledger (15 Dec 2023 to 6 Mar 2026).pdf",
+        ],
+    )
+    build_cover_page(
+        BUILD_DIR / "required_evidence_section_2.pdf",
+        "Item 2 – Medical Appointment Proof",
+        "Medical appointment section for the child's autism assessment.",
+        [
+            "If the original appointment letter or email is available, replace the placeholder page with that source document before filing.",
+            "If not available, complete the placeholder page truthfully and keep the date and child name visible.",
+        ],
+    )
+    build_cover_page(
+        BUILD_DIR / "required_evidence_section_3.pdf",
+        "Item 3 – Income Proof",
+        "Source income statement selected because it shows the payment grant date of 13 February 2026.",
+        [
+            "Included source: Exhibit C1 - Income Statement (13 March).pdf",
+        ],
+    )
+    combine_pdfs(
+        ROOT / "ACAT Required Evidence – Receipt, Medical and Income.pdf",
+        [
+            BUILD_DIR / "required_evidence_cover.pdf",
+            BUILD_DIR / "required_evidence_section_1.pdf",
+            SOURCE_DIR / "Exhibit C6 - Proof of Ledger Backpay.pdf",
+            SOURCE_DIR / "Exhibit C5 - Ledger (15 Dec 2023 to 6 Mar 2026).pdf",
+            BUILD_DIR / "required_evidence_section_2.pdf",
+            ROOT / "Exhibit D – Autism Assessment Appointment.pdf",
+            BUILD_DIR / "required_evidence_section_3.pdf",
+            SOURCE_DIR / "Exhibit C1 - Income Statement (13 March).pdf",
         ],
     )
 
